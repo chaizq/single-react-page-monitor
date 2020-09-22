@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>fwdt-icon-g1</title>
+    <desc>Created with Sketch.</desc>
+    <g id="fwdt-icon-g1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="点-外部" fill="#FFE58F" opacity="0.836588542">
+            <circle id="椭圆形-copy-2" cx="12" cy="12" r="12"></circle>
+        </g>
+        <g id="点-icon-1" transform="translate(7.000000, 6.000000)" fill="#C06304" fill-rule="nonzero">
+            <path d="M1.408,11.424 L2.624,8.224 L7.872,8.224 L9.088,11.424 L10.512,11.424 L6.016,0 L4.496,0 L0,11.424 L1.408,11.424 Z M7.456,7.12 L3.04,7.12 L5.232,1.408 L5.296,1.408 L7.456,7.12 Z" id="A"></path>
+        </g>
+    </g>
+</svg>

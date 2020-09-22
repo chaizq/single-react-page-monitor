@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="90px" height="90px" viewBox="0 0 90 90" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.4 (67378) - http://www.bohemiancoding.com/sketch -->
+    <title>jqqd</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <circle id="path-1" cx="45" cy="45" r="45"></circle>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="fabuziyuan" transform="translate(-938.000000, -163.000000)">
+            <g id="jqqd" transform="translate(938.000000, 163.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#FBFCFD" xlink:href="#path-1"></use>
+                <circle id="椭圆形-copy-5" fill="#D8E7FD" mask="url(#mask-2)" cx="82" cy="74" r="45"></circle>
+                <circle id="椭圆形-copy-6" fill="#D8E7FD" mask="url(#mask-2)" cx="8" cy="74" r="45"></circle>
+                <path d="M45,99.6196086 C39.955927,92.3486534 37,83.5195236 37,74 C37,64.4804764 39.955927,55.6513466 45,48.3803914 C50.044073,55.6513466 53,64.4804764 53,74 C53,83.5195236 50.044073,92.3486534 45,99.6196086 Z" id="合并形状" fill="#C3D9F9" mask="url(#mask-2)"></path>
+                <circle id="椭圆形-copy-7" fill="#448BFB" opacity="0.192545573" mask="url(#mask-2)" cx="45" cy="21" r="8"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
