@@ -242,12 +242,8 @@ class ConsoleHomeView extends Component {
     return (
       <Fragment>
         {/* <FrameBreadcrumb breadcrumbList={breadcrumbList} /> */}
-        <div>
-          <Row>
-            <Col span={24} className={styles.monitorBgCol}>
-              <img alt='background img' className={styles.monitorBgDiv} src={backImg} />
-            </Col>
-          </Row>
+        <div className={styles.monitorBgCol}>
+          <img alt='background img' className={styles.monitorBgDiv} src={backImg} />
         </div>
 
         <div className={styles.countDiv}>

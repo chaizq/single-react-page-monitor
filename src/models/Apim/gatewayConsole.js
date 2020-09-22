@@ -179,11 +179,11 @@ export default {
       const response = yield call(saveOrUpdataApi, data);
       return response;
     },
-    
+
     /**
      * 心跳检测开关
-     * @param {*} action 
-     * @param {*} param1 
+     * @param {*} action
+     * @param {*} param1
      */
     *updateHeartbeat(action, { call }) {
       const data = action.payload;
@@ -327,7 +327,7 @@ export default {
     *getInvokeApiList(action, { call, put }) {
       const data = action.payload;
       const getInvokeApiListResult = yield call(getInvokeApiList, data);
-      if (getInvokeApiListResult && getInvokeApiListResult.code === 200) {
+      if (getInvokeApiListResult) {
         yield put({
           type: 'setState',
           payload: {
