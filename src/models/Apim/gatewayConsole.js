@@ -19,6 +19,7 @@ import {
   getSoapMethod,
   getGlobalStaticData,
   getInvokeStaticData,
+  getApiNum,
   getServiceFailure,
   deleteServiceFailureById,
   getInvokeApiList,
@@ -38,6 +39,8 @@ export default {
     getDeveloperByAccountResult: {},
     updateAppSecretResult: {},
     isDeveloperResult: null,
+
+    totalApiNum: '30'
   },
 
   effects: {
@@ -276,6 +279,18 @@ export default {
     *getInvokeStaticData(action, { call }) {
       const data = action.payload;
       const response = yield call(getInvokeStaticData, data);
+      return response;
+    },
+
+    *getApiNum(action, { call, put }) {
+      const response = yield call(getApiNum);
+      debugger
+      yield put({
+        type: 'setState',
+        payload: {
+          totalApiNum:response,
+        },
+      });
       return response;
     },
 

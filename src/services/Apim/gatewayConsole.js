@@ -350,6 +350,16 @@ export function getInvokeStaticData(data) {
   return {};
 }
 
+export function getApiNum() {
+  const reqUrl = `/console/ws/gateway/service/getApiNum`;
+  return request(reqUrl, {
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    method: 'GET',
+  });
+}
+
 /**
  * 获取推送失败的服务，作为手动Retry的服务列表
  */

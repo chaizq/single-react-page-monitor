@@ -6,8 +6,7 @@ import styles from './pageTitle.less';
 
 @connect((example) => ({
   // 命名空间未生效
-  globalStaticData: example.gatewayConsole.globalStaticData
-  // globalStaticData: 'aaa'
+  totalApiNum: example.gatewayConsole.totalApiNum
 
 }))
 class PageTitle extends Component {
@@ -21,7 +20,14 @@ class PageTitle extends Component {
     this.getGlobalData();
     // this.getApiData();
 
-
+    const { dispatch, totalApiNum } = this.props
+    dispatch({
+      type: 'gatewayConsole/getApiNum',
+    })
+    console.log(totalApiNum)
+    this.setState({
+      totalApiNum
+    })
     /*const { dispatch, globalStaticData } = this.props;
     dispatch({
       type: 'gatewayConsole/getGlobalStaticData',
@@ -35,52 +41,8 @@ class PageTitle extends Component {
       type: 'monitor/getApiAnalyzeStatisticInfo',
     })*/
 
-
-    // this.getGlobalDataNew()
   }
 
-  getGlobalDataNew = () => {
-    const { globalStaticData } = this.props;
-    let res = globalStaticData;
-    console.log('res',res)
-
-
-    // let res;
-
-
-    // if (globalStaticData.code !== 200) {
-    //   message.error('获取全局统计数据失败！');
-    //   // console.log(response.message);
-    //   return;
-    // }
-    // res = globalStaticData.body;
-
-    // res ={"serviceErrorCountRes":{"hits":[],"total":573,"aggregations":{"api_ids":{"value":54}}},"totalAvgExecuteTimeRes":{"hits":[],"total":1235,"aggregations":{"avg_execute_time":{"value":241.12793522267208}}},"totalIvkCount":{"hits":[],"total":1235,"aggregations":{}},"totalIvkErrorCountRes":{"hits":[],"total":573,"aggregations":{}},"_map_":"true"}
-    if (res instanceof Object) {
-      const totalIvkCount = res.totalIvkCount.total;
-      const totalIvkErrorCountRes = res.totalIvkErrorCountRes.total;
-
-      let totalAvgExecuteTimeRes;
-      // let serviceErrorCountRes;
-      if (JSON.stringify(res.totalAvgExecuteTimeRes.aggregations) === '{}') {
-        totalAvgExecuteTimeRes = 0;
-      } else {
-        totalAvgExecuteTimeRes = res.totalAvgExecuteTimeRes.aggregations.avg_execute_time.value;
-      }
-      // if (JSON.stringify(res.serviceErrorCountRes.aggregations) === "{}"){serviceErrorCountRes = '--'} else {
-      //   serviceErrorCountRes = res.serviceErrorCountRes.aggregations.api_ids.value; // 异常服务数
-      // }
-
-      this.setState({
-        totalIvkCount,
-        totalIvkErrorCountRes,
-        totalAvgExecuteTimeRes,
-        // serviceErrorCountRes
-      });
-    } else {
-      message.error('获取全局统计数据失败！');
-    }
-  };
 
   getGlobalData = () => {
     const { dispatch } = this.props;
@@ -172,35 +134,34 @@ class PageTitle extends Component {
       orgCount,
       apiSubCount,
       // serviceErrorCountRes   // apiData from monitor
+
+      totalApiNum
     } = this.state;
 
     return (
       <div className={styles.pageTitleContent}>
         <Row type="flex" justify="start" className={styles.statisticBackground} />
 
-        <Row type="flex" justify="space-between">
-          <Col span={7} className={styles.titleCard}>
+        <Row type="flex" justify="start">
+          {/*<Col span={7} className={styles.titleCard}>
             <Col className={styles.box}>
               <div className={styles.text}>接入机构</div>
-              {/* <div className={styles.value}>{orgCount}</div> */}
+               <div className={styles.value}>{orgCount}</div>
               <div className={styles.value}>11</div>
             </Col>
 
             <Col className={styles.box}>
               <div className={styles.text}>接入系统</div>
-              {/*<div className={styles.value}>{userCount}</div>*/}
+              <div className={styles.value}>{userCount}</div>
               <div className={styles.value}>2</div>
             </Col>
-          </Col>
+          </Col>*/}
 
-          <Col span={7} className={styles.titleCard}>
+          {/*<Col span={7} className={styles.titleCard}>
             <Col className={styles.boxShort}>
               <div className={styles.text}>服务总数</div>
-              {/* <div className={styles.value} style={{ textDecoration: 'underline' }}>
+               <div className={styles.value} style={{ textDecoration: 'underline' }}>
                 {apiDistCount}
-              </div> */}
-              <div className={styles.value}>
-                117
               </div>
             </Col>
 
@@ -212,24 +173,24 @@ class PageTitle extends Component {
                 <Col span={8} className={styles.valueSmall} style={{ color: '#FE5562' }}>
                   【--】
                 </Col>
-                {/* <Col span={8} className={styles.valueSmall} style={{color:'#FE5562', textDecoration: 'underline'}}>{serviceErrorCountRes}</Col> */}
+                 <Col span={8} className={styles.valueSmall} style={{color:'#FE5562', textDecoration: 'underline'}}>{serviceErrorCountRes}</Col>
               </Row>
 
               <Row gutter={16}>
                 <Col span={12} className={styles.textSmall} style={{ marginTop: '10px' }}>
                   订阅服务总数
                 </Col>
-                {/*<Col span={8} className={styles.valueSmall} style={{ marginTop: '10px' }}>
+                <Col span={8} className={styles.valueSmall} style={{ marginTop: '10px' }}>
                   {apiSubCount}
-                </Col>*/}
+                </Col>
                 <Col span={8} className={styles.valueSmall} style={{ marginTop: '10px' }}>
                   81
                 </Col>
               </Row>
             </Col>
-          </Col>
+          </Col>*/}
 
-          <Col span={7} className={styles.titleCard}>
+          {/*<Col span={7} className={styles.titleCard}>
             <Col className={styles.boxShort}>
               <div className={styles.text}>调用服务总量</div>
               <div className={styles.value}>{totalIvkCount}</div>
@@ -257,6 +218,34 @@ class PageTitle extends Component {
                   {this.toFixedNum(totalAvgExecuteTimeRes, 2)}
                 </Col>
               </Row>
+            </Col>
+          </Col>*/}
+
+          <Col span={10} className={styles.titleCard}>
+            <Col className={styles.boxShort}>
+              <div className={styles.text}>服务总数</div>
+              <div className={styles.value}>{totalApiNum}</div>
+            </Col>
+
+            <Col className={styles.boxShort}>
+              <div className={styles.text}>调用服务总量</div>
+              <div className={styles.value}>{totalIvkCount}</div>
+            </Col>
+          </Col>
+
+          <Col span={4}></Col>
+
+          <Col span={10} className={styles.titleCard}>
+            <Col className={styles.boxShort}>
+              <div className={styles.text}>调用服务错误总量</div>
+              <div className={styles.value}      style={{ color: '#FE5562', textDecoration: 'underline', marginLeft: '35px' }}>{totalIvkErrorCountRes}</div>
+            </Col>
+
+            <Col className={styles.boxShort}>
+              <div className={styles.text}>服务平均响应时间(ms)</div>
+              <div className={styles.value}>
+                {this.toFixedNum(totalAvgExecuteTimeRes, 2)}
+              </div>
             </Col>
           </Col>
         </Row>

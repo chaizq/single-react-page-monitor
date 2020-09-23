@@ -33,7 +33,6 @@ class ConsoleHomeView extends Component {
         text: '本年',
       },
 
-
       invokeStaticData: {},
       invokeApiList: [],
       apiListModalVisible: false,

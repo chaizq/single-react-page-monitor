@@ -184,7 +184,7 @@ class TimeBar extends Component {
 
     const buttons = timeArr.map((item, index) => {
       const ButtonDom = (
-        <Col key={item.id} span={1} className={styles.timeButton}>
+        <Col key={item.id} className={styles.timeButton}>
           <Button
             type="primary"
             className={index === btnIndex ? styles.btnSelected : styles.btnUnselected}
@@ -226,22 +226,22 @@ class TimeBar extends Component {
 
     return (
       <div className={styles.timeBarContent}>
-        <Row type="flex" justify="center" gutter={16} style={{ height: '50px' }}>
+        <Row type="flex" justify="start"  style={{ height: '50px' }}>
+          <Col span={3}> </Col>
           {buttons}
-          <Col span={2}> </Col>
+          <Col span={5}> </Col>
 
-          <Col span={8}>
-            <RangePicker
-              defaultValue={[moment(showStart, dateFormat), moment(showEnd, dateFormat)]}
-              showTime={{ format: 'HH:mm' }}
-              format={dateFormat}
-              allowClear={false}
-              placeholder={['Start Time', 'End Time']}
-              onChange={this.setPeriod}
-              onOk={this.setPeriod}
-              className={styles.rangePicker}
-            />
-          </Col>
+          <RangePicker
+            defaultValue={[moment(showStart, dateFormat), moment(showEnd, dateFormat)]}
+            showTime={{ format: 'HH:mm' }}
+            format={dateFormat}
+            allowClear={false}
+            placeholder={['Start Time', 'End Time']}
+            onChange={this.setPeriod}
+            onOk={this.setPeriod}
+            className={styles.rangePicker}
+          />
+
         </Row>
       </div>
     );
