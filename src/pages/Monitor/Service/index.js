@@ -18,9 +18,11 @@ import TimeBar from './Timebar/timeBar';
 
 // import FrameBreadcrumb from '@/components/PageBreadcrumb/FrameBreadcrumb';
 const Now = new Date();
-@connect(({ loading, login }) => ({
+@connect(({ gatewayConsole }) => ({
   // currentUser: login.currentUser,
   // currentUserLoading: loading.effects['login/fetchCurrentUser'],
+  moreInfoChartType: gatewayConsole.moreInfoChartType
+
 }))
 class ConsoleHomeView extends Component {
   constructor(props) {
@@ -106,7 +108,8 @@ class ConsoleHomeView extends Component {
   };
 
   apiTitleClick = param => {
-    const { dispatch } = this.props;
+    const { dispatch, moreInfoChartType } = this.props;
+    // console.log('ChartType',moreInfoChartType)
     const { current } = this.state;
     dispatch({
       type: 'gatewayConsole/getInvokeApiInfo',
@@ -166,10 +169,12 @@ class ConsoleHomeView extends Component {
             serName: param.title,
             date: dateTitle,
           },
-          categoryType: 'top20',
+          // categoryType: 'top20',
+          categoryType: moreInfoChartType,
         };
 
         drawSingleSerMixChart(chartParam, 'single_chart_more_info');
+
       } else {
         message.error('获取该项服务数据失败');
       }
@@ -246,7 +251,7 @@ class ConsoleHomeView extends Component {
         </div>
 
         <div className={styles.countDiv}>
-          <div className={styles.countTitle}>东软信息资源发布共享平台</div>
+          <div className={styles.countTitle}>网关监控平台</div>
           <div className={styles.countMsg}>
             依托实时计算、大数据存储、安全等技术，基于高可用、高可靠的技术中台，实现零代码平台的服务资源监控与分析
           </div>

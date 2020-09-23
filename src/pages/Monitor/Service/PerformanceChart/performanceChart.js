@@ -23,7 +23,9 @@ const MonthFirstDay = new Date(Now.getFullYear(), Now.getMonth(), 1);
 const MonthNextFirstDay = new Date(Now.getFullYear(), Now.getMonth() + 1, 1);
 const MonthLastDay = new Date(MonthNextFirstDay - 1);
 
-@connect(() => ({}))
+@connect((gatewayConsole) => ({
+  moreInfoChartType: gatewayConsole.moreInfoChartType
+}))
 class PerformanceChart extends Component {
   constructor(props) {
     super(props);
@@ -595,6 +597,19 @@ class PerformanceChart extends Component {
     );
   };
 
+  setChartTypeAndShow() {
+    const { dispatch } = this.props
+    const { showMoreInfo } = this.props;
+    // 生成服务资源性能图表 resTime
+    dispatch({
+      type: 'gatewayConsole/setState',
+      payload: {
+        moreInfoChartType: 'resTime',
+      },
+    });
+    showMoreInfo();
+  }
+
   render() {
     const {
       avgExecuteTimeRes,
@@ -604,7 +619,7 @@ class PerformanceChart extends Component {
       barModalVisible,
       modalCurrent,
     } = this.state;
-    const { showMoreInfo } = this.props;
+
 
     return (
       <div className={styles.chartsContent}>
@@ -646,7 +661,7 @@ class PerformanceChart extends Component {
             <Button
               icon='bar-chart'
               onClick={() => {
-                showMoreInfo();
+                this.setChartTypeAndShow();
               }}
               style={{ marginTop: '7px', float: 'right',background: '#e6f7ff', borderRadius:'10px' }}
             >

@@ -350,6 +350,10 @@ export function getInvokeStaticData(data) {
   return {};
 }
 
+/**
+ * 获取监控服务总数
+ * @returns {Promise<{}>}
+ */
 export function getApiNum() {
   const reqUrl = `/console/ws/gateway/service/getApiNum`;
   return request(reqUrl, {

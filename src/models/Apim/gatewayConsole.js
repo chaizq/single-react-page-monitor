@@ -27,7 +27,7 @@ import {
   getPlatformDeveloper,
   getServiceFailureById,
   getServiceMapStaticData,
-  updateHeartbeat
+  updateHeartbeat,
 } from '@/services/Apim/gatewayConsole';
 import { message } from 'antd';
 
@@ -40,7 +40,8 @@ export default {
     updateAppSecretResult: {},
     isDeveloperResult: null,
 
-    totalApiNum: '30'
+    totalApiNum: '49',
+    moreInfoChartType: 'top20',
   },
 
   effects: {
@@ -288,7 +289,7 @@ export default {
       yield put({
         type: 'setState',
         payload: {
-          totalApiNum:response,
+          totalApiNum: response,
         },
       });
       return response;
@@ -401,6 +402,7 @@ export default {
       const data = action.payload;
       return yield call(getServiceMapStaticData, data);
     },
+
   },
 
   reducers: {

@@ -4,15 +4,14 @@ import { Row, Col, message } from 'antd';
 import { connect } from 'dva';
 import styles from './pageTitle.less';
 
-@connect((example) => ({
+@connect((gatewayConsole) => ({
   // 命名空间未生效
-  totalApiNum: example.gatewayConsole.totalApiNum
+  totalApiNum: gatewayConsole.totalApiNum
 
 }))
 class PageTitle extends Component {
   constructor(props) {
     super(props);
-
     this.state = {};
   }
 

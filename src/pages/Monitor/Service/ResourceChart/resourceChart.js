@@ -638,6 +638,18 @@ class ResourceChart extends Component {
     );
   }
 
+  setChartTypeAndShow() {
+    const { dispatch, showMoreInfo } = this.props
+    // 生成服务资源统计图表 top20
+    dispatch({
+      type: 'gatewayConsole/setState',
+      payload: {
+        moreInfoChartType: 'top20',
+      },
+    });
+    showMoreInfo();
+  }
+
   // 渲染
   render() {
     const {
@@ -651,7 +663,6 @@ class ResourceChart extends Component {
       barModalVisible,
       modalCurrent,
     } = this.state;
-    const { showMoreInfo } = this.props;
 
     return (
       <div className={styles.chartsContent}>
@@ -695,7 +706,7 @@ class ResourceChart extends Component {
             <Button
               icon='bar-chart'
               onClick={() => {
-                showMoreInfo();
+                this.setChartTypeAndShow();
               }}
               style={{ marginTop: '7px', float: 'right',background: '#e6f7ff', borderRadius:'10px' }}
             >
