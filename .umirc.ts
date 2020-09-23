@@ -30,6 +30,10 @@ const config: IConfig =  {
       },
     }],
   ],
+  // 设置打包生成相对路径
+  base:'./',
+  publicPath:'./',
+  history:'hash'
 }
 
 export default config;
