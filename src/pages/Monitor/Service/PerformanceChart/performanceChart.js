@@ -15,7 +15,7 @@ import {
   toFixedNum,
 } from '@/utils/Apim/apimUtils';
 import TimeBar from '@/pages/Monitor/Service/Timebar/timeBar';
-import { BarChartOutlined } from '@ant-design/icons';
+// import { BarChartOutlined } from '@ant-design/icons';
 import styles from './performanceChart.less';
 
 const Now = new Date();
@@ -644,7 +644,7 @@ class PerformanceChart extends Component {
           </Col>
           <Col span={4}>
             <Button
-              icon={<BarChartOutlined />}
+              icon='bar-chart'
               onClick={() => {
                 showMoreInfo();
               }}
