@@ -72,6 +72,7 @@ const doRequest = (url, option) => {
       };
     }
   }
+  // 请求的URL: gatewayUrl + url
   const reqUrl = gatewayUrl + url;
   const result = fetch(reqUrl, newOptions)
     .then(response => {

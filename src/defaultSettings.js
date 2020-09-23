@@ -29,5 +29,6 @@ module.exports = {
     DataCatalog: ['apimConsoleService', 'apimGatewayService', 'mmService'],
     DataModel: ['dsdService'],
   },
+  // APIM后台服务地址设置（单页面使用到的地址）
   gatewayUrl :'http://10.4.46.34:8040',
 };
