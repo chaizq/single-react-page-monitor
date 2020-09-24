@@ -19,14 +19,11 @@ class PageTitle extends Component {
     this.getGlobalData();
     // this.getApiData();
 
-    const { dispatch, totalApiNum } = this.props
+    const { dispatch } = this.props
     dispatch({
       type: 'gatewayConsole/getApiNum',
     })
-    console.log(totalApiNum)
-    this.setState({
-      totalApiNum
-    })
+
     /*const { dispatch, globalStaticData } = this.props;
     dispatch({
       type: 'gatewayConsole/getGlobalStaticData',
@@ -40,6 +37,12 @@ class PageTitle extends Component {
       type: 'monitor/getApiAnalyzeStatisticInfo',
     })*/
 
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    this.setState({
+      totalApiNum:nextProps.totalApiNum
+    })
   }
 
   getGlobalData = () => {
