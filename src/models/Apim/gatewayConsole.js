@@ -40,7 +40,7 @@ export default {
     updateAppSecretResult: {},
     isDeveloperResult: null,
 
-    totalApiNum: '49',
+    totalApiNum: '',
     moreInfoChartType: 'top20',
   },
 

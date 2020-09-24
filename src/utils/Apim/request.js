@@ -73,7 +73,10 @@ const doRequest = (url, option) => {
     }
   }
   // 请求的URL: gatewayUrl + url
-  const reqUrl = gatewayUrl + url;
+  let reqUrl = gatewayUrl + url;
+  // if (url==='/console/ws/gateway/service/getApiNum'){
+  //   reqUrl = 'http://10.4.45.127:8040' + url
+  // }
   const result = fetch(reqUrl, newOptions)
     .then(response => {
       // 校验响应，如果出现异常，直接抛错，不进行后续代码逻辑

@@ -4,9 +4,9 @@ import { Row, Col, message } from 'antd';
 import { connect } from 'dva';
 import styles from './pageTitle.less';
 
-@connect((gatewayConsole) => ({
-  // 命名空间未生效
-  totalApiNum: gatewayConsole.totalApiNum
+@connect((example) => ({
+  // pageTitle命名空间未生效
+  totalApiNum: example.gatewayConsole.totalApiNum
 
 }))
 class PageTitle extends Component {
@@ -41,7 +41,6 @@ class PageTitle extends Component {
     })*/
 
   }
-
 
   getGlobalData = () => {
     const { dispatch } = this.props;
