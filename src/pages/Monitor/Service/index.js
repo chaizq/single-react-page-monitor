@@ -246,9 +246,9 @@ class ConsoleHomeView extends Component {
     return (
       <Fragment>
         {/* <FrameBreadcrumb breadcrumbList={breadcrumbList} /> */}
-        <div className={styles.monitorBgCol}>
-          <img alt='background img' className={styles.monitorBgDiv} src={backImg} />
-        </div>
+        {/*<div className={styles.monitorBgCol}>*/}
+        {/*  <img alt='background img' className={styles.monitorBgDiv} src={backImg} />*/}
+        {/*</div>*/}
 
         <div className={styles.countDiv}>
           <div className={styles.countTitle}>网关监控平台</div>

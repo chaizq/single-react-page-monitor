@@ -1,3 +1,4 @@
+
 module.exports = {
   navTheme: 'dark', // theme for nav menu
   primaryColor: '#1890FF', // primary color of ant design
@@ -30,7 +31,7 @@ module.exports = {
     DataModel: ['dsdService'],
   },
   // APIM后台服务地址设置（单页面使用到的地址）
-  gatewayUrl :'http://10.16.52.88:8090',
-  // gatewayUrl :'http://10.4.46.34:8040',
+  // gatewayUrl :'http://10.16.52.88:8090',
+  gatewayUrl :'http://10.4.46.34:8040',
   // gatewayUrl :'http://10.4.45.127:8040',
 };

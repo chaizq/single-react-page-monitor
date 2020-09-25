@@ -143,7 +143,7 @@ class PageTitle extends Component {
       <div className={styles.pageTitleContent}>
         <Row type="flex" justify="start" className={styles.statisticBackground} />
 
-        <Row type="flex" justify="start">
+        <Row type="flex" justify="center">
           {/*<Col span={7} className={styles.titleCard}>
             <Col className={styles.box}>
               <div className={styles.text}>接入机构</div>
@@ -222,32 +222,48 @@ class PageTitle extends Component {
             </Col>
           </Col>*/}
 
-          <Col span={10} className={styles.titleCard}>
-            <Col className={styles.boxShort}>
-              <div className={styles.text}>服务总数</div>
-              <div className={styles.value}>{totalApiNum}</div>
-            </Col>
-
-            <Col className={styles.boxShort}>
-              <div className={styles.text}>调用服务总量</div>
-              <div className={styles.value}>{totalIvkCount}</div>
-            </Col>
+          <Col span={6} className={styles.titleCard}>
+              <Col className={styles.boxShortServiceNum}>
+                <div className={styles.text}>服务总数</div>
+                <div className={styles.value}>{totalApiNum}</div>
+                {/*<div className={styles.value}>42511</div>*/}
+                <div className={styles.image}>
+                  <img src={[require("@/assets/dcat/monitor/boxShortServiceNum.png")]} alt=""/>
+                </div>
+              </Col>
           </Col>
+          <Col span={6} className={styles.titleCard}>
+              <Col className={styles.boxShortServiceTotal}>
+                <div className={styles.text}>调用服务总量</div>
+                <div className={styles.value}>{totalIvkCount}</div>
+                {/*<div className={styles.value}>212112</div>*/}
+                <div className={styles.image}>
+                  <img src={[require("@/assets/dcat/monitor/boxShortServiceTotal.png")]} alt=""/>
+                </div>
 
-          <Col span={4}></Col>
-
-          <Col span={10} className={styles.titleCard}>
-            <Col className={styles.boxShort}>
-              <div className={styles.text}>调用服务错误总量</div>
-              <div className={styles.value}      style={{ color: '#FE5562', textDecoration: 'underline', marginLeft: '35px' }}>{totalIvkErrorCountRes}</div>
-            </Col>
-
-            <Col className={styles.boxShort}>
-              <div className={styles.text}>服务平均响应时间(ms)</div>
-              <div className={styles.value}>
-                {this.toFixedNum(totalAvgExecuteTimeRes, 2)}
-              </div>
-            </Col>
+              </Col>
+          </Col>
+          <Col span={6} className={styles.titleCard}>
+              <Col className={styles.boxShortServiceErrorNum}>
+                <div className={styles.text}>调用服务错误总量</div>
+                <div className={styles.value}>{totalIvkErrorCountRes}</div>
+                {/*<div className={styles.value}>32313</div>*/}
+                <div className={styles.image}>
+                  <img src={[require("@/assets/dcat/monitor/boxShortServiceErrorNum.png")]} alt=""/>
+                </div>
+              </Col>
+          </Col>
+          <Col span={6} className={styles.titleCard}>
+              <Col className={styles.boxShortServiceResponseTime}>
+                <div className={styles.text}>服务平均响应时间(ms)</div>
+                {/*<div className={styles.value}>323234</div>*/}
+                <div className={styles.value}>
+                  {this.toFixedNum(totalAvgExecuteTimeRes, 2)}
+                </div>
+                <div className={styles.image}>
+                  <img src={[require("@/assets/dcat/monitor/boxShortServiceResponseTime.png")]} alt=""/>
+                </div>
+              </Col>
           </Col>
         </Row>
       </div>
