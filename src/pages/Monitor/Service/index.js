@@ -142,7 +142,7 @@ class ConsoleHomeView extends Component {
           if (current.end - current.start <= 86340000) {
             const tempDate = new Date(item.key);
             dateTitle = ` [${tempDate.getFullYear()}-${tempDate.getMonth() +
-              1}-${tempDate.getDate()}]`;
+            1}-${tempDate.getDate()}]`;
             temp.label = oneDayTimestampToDate(item.key);
           } else {
             temp.label = timestampToDate(item.key);
@@ -230,7 +230,6 @@ class ConsoleHomeView extends Component {
         topK: 20,
       },
     }).then(response => {
-      debugger
       const res = response;
       if (res instanceof Object) {
         this.setState({ invokeStaticData: res });
@@ -245,10 +244,10 @@ class ConsoleHomeView extends Component {
 
     return (
       <Fragment>
-        {/* <FrameBreadcrumb breadcrumbList={breadcrumbList} /> */}
-        {/*<div className={styles.monitorBgCol}>*/}
-        {/*  <img alt='background img' className={styles.monitorBgDiv} src={backImg} />*/}
-        {/*</div>*/}
+        {/*<FrameBreadcrumb breadcrumbList={breadcrumbList} />*/}
+        {/*<div className={styles.monitorBgCol}>
+          <img alt='background img' className={styles.monitorBgDiv} src={backImg} />
+        </div>*/}
 
         <div className={styles.countDiv}>
           <div className={styles.countTitle}>网关监控平台</div>

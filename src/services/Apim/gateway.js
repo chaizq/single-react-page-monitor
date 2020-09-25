@@ -16,7 +16,6 @@ export default async function testApi(condition) {
     ) {
       tempReqBody = data;
     }
-    debugger;
     const restUrl = serviceAddress;
     const param = {
       method,

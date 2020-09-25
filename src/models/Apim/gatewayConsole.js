@@ -285,7 +285,6 @@ export default {
 
     *getApiNum(action, { call, put }) {
       const response = yield call(getApiNum);
-      debugger
       yield put({
         type: 'setState',
         payload: {

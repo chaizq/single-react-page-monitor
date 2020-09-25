@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Row, Col, message } from 'antd';
-// import { connect } from 'umi';
 import { connect } from 'dva';
 import styles from './pageTitle.less';
 
@@ -17,26 +16,11 @@ class PageTitle extends Component {
 
   componentDidMount() {
     this.getGlobalData();
-    // this.getApiData();
 
     const { dispatch } = this.props
     dispatch({
       type: 'gatewayConsole/getApiNum',
     })
-
-    /*const { dispatch, globalStaticData } = this.props;
-    dispatch({
-      type: 'gatewayConsole/getGlobalStaticData',
-      payload: {},
-    }).then(res =>{
-      console.log(res)
-      console.log('global',globalStaticData)
-    })
-    console.log('globalA',globalStaticData)
-    dispatch({
-      type: 'monitor/getApiAnalyzeStatisticInfo',
-    })*/
-
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -109,7 +93,6 @@ class PageTitle extends Component {
   };
 
   // 工具类方法
-
   isRealNum = val => {
     return parseFloat(val).toString() !== 'NaN';
   };
@@ -227,8 +210,10 @@ class PageTitle extends Component {
                 <div className={styles.text}>服务总数</div>
                 <div className={styles.value}>{totalApiNum}</div>
                 {/*<div className={styles.value}>42511</div>*/}
-                <div className={styles.image}>
-                  <img src={[require("@/assets/dcat/monitor/boxShortServiceNum.png")]} alt=""/>
+                <div >
+                  <img
+                    className={styles.image}
+                    src={[require("@/assets/dcat/monitor/boxShortServiceNum.png")]} alt=""/>
                 </div>
               </Col>
           </Col>
@@ -246,7 +231,7 @@ class PageTitle extends Component {
           <Col span={6} className={styles.titleCard}>
               <Col className={styles.boxShortServiceErrorNum}>
                 <div className={styles.text}>调用服务错误总量</div>
-                <div className={styles.value}>{totalIvkErrorCountRes}</div>
+                <div className={styles.valueRed}>{totalIvkErrorCountRes}</div>
                 {/*<div className={styles.value}>32313</div>*/}
                 <div className={styles.image}>
                   <img src={[require("@/assets/dcat/monitor/boxShortServiceErrorNum.png")]} alt=""/>
