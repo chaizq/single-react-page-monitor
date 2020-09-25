@@ -735,21 +735,21 @@ class ResourceChart extends Component {
             </Card>
           </Col>
 
-          {/*<Col span={6}>*/}
-          {/*  <Card className={styles.labelCard}>*/}
-          {/*    <Row>*/}
-          {/*      <Col span={12} className={styles.labelText}>*/}
-          {/*        UV量*/}
-          {/*      </Col>*/}
-          {/*      <Col span={12} className={styles.value}>*/}
-          {/*        {UVCountRes}*/}
-          {/*      </Col>*/}
-          {/*    </Row>*/}
+          {/*<Col span={6}>
+            <Card className={styles.labelCard}>
+              <Row>
+                <Col span={12} className={styles.labelText}>
+                  UV量
+                </Col>
+                <Col span={12} className={styles.value}>
+                  {UVCountRes}
+                </Col>
+              </Row>
 
-          {/*  </Card>*/}
-          {/*</Col>*/}
+            </Card>
+          </Col>*/}
 
-          <Col style={{ width: '20%' }}>
+          <Col span={6}>
             <Card className={styles.labelCard}>
               <Row>
                 <Col span={12} className={styles.labelText}>
@@ -763,7 +763,7 @@ class ResourceChart extends Component {
             </Card>
           </Col>
 
-          <Col style={{ width: '20%' }}>
+          <Col span={6}>
             <Card className={styles.labelCard}>
               <Row>
                 <Col span={12} className={styles.labelText}>
@@ -776,7 +776,7 @@ class ResourceChart extends Component {
             </Card>
           </Col>
 
-          <Col style={{ width: '20%' }}>
+          <Col span={6}>
             <Card className={styles.labelCard} style={{ borderRight: 'none' }}>
               <Row>
                 <Col span={12} className={styles.labelText}>
