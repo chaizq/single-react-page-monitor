@@ -32,6 +32,6 @@ module.exports = {
   },
   // APIM后台服务地址设置（单页面使用到的地址）
   gatewayUrl :'http://10.16.52.88:8090',
-  // gatewayUrl :'http://10.4.46.34:8040',
+  // gatewayUrl :'http://10.4.46.34:8040', // 本地测试环境
   // gatewayUrl :'http://10.4.45.127:8040',
 };

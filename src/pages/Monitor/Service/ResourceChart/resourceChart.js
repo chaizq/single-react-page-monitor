@@ -55,11 +55,12 @@ class ResourceChart extends Component {
     super(props);
     // 单个服务图表首次加载默认显示本月的数据
     this.state = {
-      modalCurrent: {
-        start: MonthFirstDay.getTime(),
-        end: MonthLastDay.getTime(),
-        text: '本月',
-      },
+      modalCurrent: this.props.current,
+      // modalCurrent: {
+      //   start: MonthFirstDay.getTime(),
+      //   end: MonthLastDay.getTime(),
+      //   text: '本月',
+      // },
       // modalCurrent:{
       //   start:new Date(new Date().toLocaleDateString()).getTime(),
       //   end:new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000 - 1,
@@ -82,7 +83,10 @@ class ResourceChart extends Component {
     const { current, invokeStaticData } = this.props;
 
     if (nextProps.current !== current) {
-      this.setState({ currentText: nextProps.current.text });
+      this.setState({
+        currentText: nextProps.current.text,
+        modalCurrent: nextProps.current
+      });
     }
     if (nextProps.invokeStaticData !== invokeStaticData) {
       this.getResourceData(nextProps.invokeStaticData);
@@ -270,11 +274,7 @@ class ResourceChart extends Component {
 
   hideModal = () => {
     this.setState({
-      modalCurrent: {
-        start: MonthFirstDay.getTime(),
-        end: MonthLastDay.getTime(),
-        text: '本月',
-      },
+      modalCurrent: this.props.current,
       singleSerParam: {},
       lineModalVisible: false,
       barModalVisible: false,

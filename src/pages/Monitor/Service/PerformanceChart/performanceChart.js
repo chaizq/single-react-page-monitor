@@ -30,11 +30,12 @@ class PerformanceChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalCurrent: {
-        start: MonthFirstDay.getTime(),
-        end: MonthLastDay.getTime(),
-        text: '本月',
-      },
+      modalCurrent: this.props.current,
+      // modalCurrent: {
+      //   start: MonthFirstDay.getTime(),
+      //   end: MonthLastDay.getTime(),
+      //   text: '本月',
+      // },
       singleSerParam: {},
       lineModalVisible: false,
       barModalVisible: false,
@@ -55,7 +56,10 @@ class PerformanceChart extends Component {
     const { current, invokeStaticData } = this.props;
 
     if (nextProps.current !== current) {
-      this.setState({ currentText: nextProps.current.text });
+      this.setState({
+        currentText: nextProps.current.text,
+        modalCurrent: nextProps.current
+      });
     }
     if (nextProps.invokeStaticData !== invokeStaticData) {
       this.getPerformanceData(nextProps.invokeStaticData, nextProps.current);
@@ -569,11 +573,7 @@ class PerformanceChart extends Component {
 
   hideModal = () => {
     this.setState({
-      modalCurrent: {
-        start: MonthFirstDay.getTime(),
-        end: MonthLastDay.getTime(),
-        text: '本月',
-      },
+      modalCurrent: this.props.current,
       singleSerParam: {},
       lineModalVisible: false,
       barModalVisible: false,
@@ -709,7 +709,8 @@ class PerformanceChart extends Component {
                   平均TPS
                 </Col>
                 <Col span={12} className={styles.value}>
-                  {topTPS < 0.001 ? '< 0.001' : toFixedNum(topTPS, 3)}
+                  {/*{topTPS < 0.001 ? '< 0.001' : toFixedNum(topTPS, 3)}*/}
+                  { toFixedNum(1000/avgExecuteTimeRes,0) }
                 </Col>
               </Row>
               {/* <Col span={12} className={styles.value}>{topTPS}</Col> */}
