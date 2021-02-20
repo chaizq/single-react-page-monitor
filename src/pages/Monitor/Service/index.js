@@ -198,19 +198,22 @@ class ConsoleHomeView extends Component {
       }
       res = response;
       if (res instanceof Object) {
-        const apiListRes = res.aggregations.api_ids;
+        let apiListRes = [];
         const apiListResArr = [];
-        apiListRes.forEach(item => {
-          const temp = {
-            key: '',
-            title: '',
-            type: '',
-          };
-          temp.key = item.key; // 服务key，即服务id
-          temp.title = item.api_name.buckets[0].key;
-          temp.type = item.edit_type.buckets[0].key;
-          apiListResArr.push(temp);
-        });
+        if (JSON.stringify(res.aggregations) !== '{}') {
+          apiListRes = res.aggregations.api_ids;
+          apiListRes.forEach(item => {
+            const temp = {
+              key: '',
+              title: '',
+              type: '',
+            };
+            temp.key = item.key; // 服务key，即服务id
+            temp.title = item.api_name.buckets[0].key;
+            temp.type = item.edit_type.buckets[0].key;
+            apiListResArr.push(temp);
+          });
+        }
         this.setState({
           invokeApiList: apiListResArr,
         });

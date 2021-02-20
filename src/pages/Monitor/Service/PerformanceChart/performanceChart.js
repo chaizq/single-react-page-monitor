@@ -90,42 +90,49 @@ class PerformanceChart extends Component {
     const res = data;
 
     const avgExecuteTimeRes = res.avgExecuteTiemRes.aggregations.avg_execute_time.value;
-    const topKExecuteTimeRes = res.topKExecuteTimeRes.aggregations.api_ids; // Top20响应时间图表
     const topKExecuteTimeResArr = [];
-    topKExecuteTimeRes.forEach(item => {
-      const temp = {
-        label: '',
-        count: '',
-        executeTime: '',
-      };
-      temp.key = item.key;
-      // eslint-disable-next-line
-      temp.label = item.topK.hits.hits[0]._source['gateway.monitor.api_name'];
-      temp.count = item.doc_count;
+    let topKExecuteTimeRes = [];
+    if (JSON.stringify(res.topKExecuteTimeRes.aggregations) !== '{}') {
+      topKExecuteTimeRes = res.topKExecuteTimeRes.aggregations.api_ids; // Top20响应时间图表
+      topKExecuteTimeRes.forEach(item => {
+        const temp = {
+          label: '',
+          count: '',
+          executeTime: '',
+        };
+        temp.key = item.key;
+        // eslint-disable-next-line
+        temp.label = item.topK.hits.hits[0]._source['gateway.monitor.api_name'];
+        temp.count = item.doc_count;
 
-      if (item.avg_execute.value === null || typeof item.avg_execute.value === 'undefined') {
-        message.error('响应时间数据加载失败');
-      } else {
-        temp.executeTime = toFixedNum(item.avg_execute.value, 0);
-      }
-      topKExecuteTimeResArr.push(temp);
-    });
-
-    const topKInvkRes = res.topKInvkRes.aggregations.api_ids; // Top20服务并发数占比
+        if (item.avg_execute.value === null || typeof item.avg_execute.value === 'undefined') {
+          message.error('响应时间数据加载失败');
+        } else {
+          temp.executeTime = toFixedNum(item.avg_execute.value, 0);
+        }
+        topKExecuteTimeResArr.push(temp);
+      });
+    }
+    let topKInvkRes = []; // Top20服务并发数占比
     const topKInvkResTotal = res.topKInvkRes.total; // Top20服务并发量
     const topTPS = (1000 * topKInvkResTotal) / (current.end - current.start);
     const topKInvkResArr = [];
-    topKInvkRes.forEach(item => {
-      const temp = {
-        label: '',
-        count: '',
-      };
-      temp.key = item.key;
-      // eslint-disable-next-line
-      temp.label = item.topK.hits.hits[0]._source['gateway.monitor.api_name'];
-      temp.count = item.doc_count / topKInvkResTotal;
-      topKInvkResArr.push(temp);
-    });
+
+    if (JSON.stringify(res.topKInvkRes.aggregations) !== '{}') {
+      topKInvkRes = res.topKInvkRes.aggregations.api_ids; // Top20服务并发数占比
+      topKInvkRes.forEach(item => {
+        const temp = {
+          label: '',
+          count: '',
+        };
+        temp.key = item.key;
+        // eslint-disable-next-line
+        temp.label = item.topK.hits.hits[0]._source['gateway.monitor.api_name'];
+        temp.count = item.doc_count / topKInvkResTotal;
+        topKInvkResArr.push(temp);
+      });
+    }
+
 
     this.setState({
       avgExecuteTimeRes: avgExecuteTimeRes === null ? '--' : avgExecuteTimeRes,
@@ -448,7 +455,7 @@ class PerformanceChart extends Component {
           x: e.x,
           y: e.y,
         });
-        if ('point' in toolData[0]) {
+        if (typeof toolData[0] === 'object' && 'point' in toolData[0]) {
           param = {
             // eslint-disable-next-line no-underscore-dangle
             title: toolData[0].point._origin.label,
@@ -480,7 +487,7 @@ class PerformanceChart extends Component {
           y: e.y,
         });
         toolData.forEach(item => {
-          if ('point' in item) {
+          if (typeof item === 'object' && 'point' in item) {
             param = {
               title: item.point.point.label,
               key: item.point.point.key,
@@ -524,31 +531,32 @@ class PerformanceChart extends Component {
         if (res instanceof Object) {
           const singleChartData = [];
           let dateTitle = '';
+          if (JSON.stringify(res.aggregations) !== '{}') {
+            res.aggregations.api_over_time.forEach(item => {
+              const temp = {
+                key: '',
+                label: '',
+                invkCount: '',
+                invkErrorCount: '',
+                executeTime: '',
+              };
+              temp.key = item.key; // 服务key，即服务id
+              // temp.label = item.key_as_string;
+              if (modalCurrent.end - modalCurrent.start <= 86400000) {
+                const tempDate = new Date(item.key);
+                dateTitle = ` [${tempDate.getFullYear()}-${tempDate.getMonth() +
+                1}-${tempDate.getDate()}]`;
 
-          res.aggregations.api_over_time.forEach(item => {
-            const temp = {
-              key: '',
-              label: '',
-              invkCount: '',
-              invkErrorCount: '',
-              executeTime: '',
-            };
-            temp.key = item.key; // 服务key，即服务id
-            // temp.label = item.key_as_string;
-            if (modalCurrent.end - modalCurrent.start <= 86400000) {
-              const tempDate = new Date(item.key);
-              dateTitle = ` [${tempDate.getFullYear()}-${tempDate.getMonth() +
-              1}-${tempDate.getDate()}]`;
-
-              temp.label = oneDayTimestampToDate(item.key);
-            } else {
-              temp.label = timestampToDate(item.key);
-            }
-            temp.invkCount = item.doc_count;
-            temp.executeTime =
-              item.avg_execute_time.value === null ? 0 : toFixedNum(item.avg_execute_time.value, 0);
-            singleChartData.push(temp);
-          });
+                temp.label = oneDayTimestampToDate(item.key);
+              } else {
+                temp.label = timestampToDate(item.key);
+              }
+              temp.invkCount = item.doc_count;
+              temp.executeTime =
+                item.avg_execute_time.value === null ? 0 : toFixedNum(item.avg_execute_time.value, 0);
+              singleChartData.push(temp);
+            });
+          }
 
           const chartParam = {
             data: singleChartData,

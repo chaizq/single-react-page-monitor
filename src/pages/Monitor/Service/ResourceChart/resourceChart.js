@@ -138,7 +138,7 @@ class ResourceChart extends Component {
           x: e.x,
           y: e.y,
         });
-        if ('point' in toolData[0]) {
+        if (typeof toolData[0] === 'object' && 'point' in toolData[0]) {
           param = {
             // eslint-disable-next-line no-underscore-dangle
             title: toolData[0].point._origin.label,
@@ -170,7 +170,7 @@ class ResourceChart extends Component {
           y: e.y,
         });
         toolData.forEach(item => {
-          if ('point' in item) {
+          if (typeof item === 'object' && 'point' in item) {
             param = {
               title: item.point.point.label,
               key: item.point.point.key,
@@ -214,43 +214,43 @@ class ResourceChart extends Component {
         if (res instanceof Object) {
           const singleChartData = [];
           let dateTitle = '';
+          if (JSON.stringify(res.aggregations) !== '{}') {
+            res.aggregations.api_over_time.forEach(item => {
+              const temp = {
+                key: '',
+                label: '',
+                invkCount: '',
+                invkErrorCount: '',
+                executeTime: '',
+              };
+              temp.key = item.key; // 服务key，即服务id
+              // temp.label = item.key_as_string;
+              if (modalCurrent.end - modalCurrent.start <= 86400000) {
+                const tempDate = new Date(item.key);
+                dateTitle = ` [${tempDate.getFullYear()}-${tempDate.getMonth() +
+                1}-${tempDate.getDate()}]`;
 
-          res.aggregations.api_over_time.forEach(item => {
-            const temp = {
-              key: '',
-              label: '',
-              invkCount: '',
-              invkErrorCount: '',
-              executeTime: '',
-            };
-            temp.key = item.key; // 服务key，即服务id
-            // temp.label = item.key_as_string;
-            if (modalCurrent.end - modalCurrent.start <= 86400000) {
-              const tempDate = new Date(item.key);
-              dateTitle = ` [${tempDate.getFullYear()}-${tempDate.getMonth() +
-              1}-${tempDate.getDate()}]`;
-
-              temp.label = oneDayTimestampToDate(item.key);
-            } else {
-              temp.label = timestampToDate(item.key);
-            }
-            temp.invkCount = item.doc_count;
-            temp.invkErrorCount = 0;
-            if ('exception' in item && 'buckets' in item.exception) {
-              item.exception.buckets.forEach(i => {
-                if ('key_as_string' in i && 'doc_count' in i) {
-                  if (i.key_as_string === 'true') {
-                    // 该字段为ture时，代表是错误调用
-                    temp.invkErrorCount = i.doc_count;
+                temp.label = oneDayTimestampToDate(item.key);
+              } else {
+                temp.label = timestampToDate(item.key);
+              }
+              temp.invkCount = item.doc_count;
+              temp.invkErrorCount = 0;
+              if ('exception' in item && 'buckets' in item.exception) {
+                item.exception.buckets.forEach(i => {
+                  if ('key_as_string' in i && 'doc_count' in i) {
+                    if (i.key_as_string === 'true') {
+                      // 该字段为ture时，代表是错误调用
+                      temp.invkErrorCount = i.doc_count;
+                    }
                   }
-                }
-              });
-            }
-            temp.executeTime =
-              item.avg_execute_time.value === null ? 0 : toFixedNum(item.avg_execute_time.value, 0);
-            singleChartData.push(temp);
-          });
-
+                });
+              }
+              temp.executeTime =
+                item.avg_execute_time.value === null ? 0 : toFixedNum(item.avg_execute_time.value, 0);
+              singleChartData.push(temp);
+            });
+          }
           const chartParam = {
             data: singleChartData,
             title: {
@@ -359,26 +359,24 @@ class ResourceChart extends Component {
       top20ServiceCountArr.push(temp);
     });
 
-    let topKServiceInvkErrorCountRes;
-    if (JSON.stringify(res.topKServiceInvkErrorCountRes.aggregations) === '{}') {
-      topKServiceInvkErrorCountRes = 0;
-    } else {
-      topKServiceInvkErrorCountRes = res.topKServiceInvkErrorCountRes.aggregations.api_ids; // Top20错误数
-    }
+    let topKServiceInvkErrorCountRes = [];
     const topKServiceInvkErrorCountResTotal = res.topKServiceInvkErrorCountRes.total; // Top20错误总量数
     const top20ServiceErrorCountArr = [];
+    if (JSON.stringify(res.topKServiceInvkErrorCountRes.aggregations) !== '{}') {
+      topKServiceInvkErrorCountRes = res.topKServiceInvkErrorCountRes.aggregations.api_ids; // Top20错误数
+      topKServiceInvkErrorCountRes.forEach(item => {
+        const temp = {
+          label: '',
+          count: '',
+        };
+        temp.key = item.key; // 服务key，即服务id
+        // eslint-disable-next-line
+        temp.label = item.topK.hits.hits[0]._source['gateway.monitor.api_name'];
+        temp.count = item.doc_count / topKServiceInvkErrorCountResTotal;
+        top20ServiceErrorCountArr.push(temp);
+      });
+    }
 
-    topKServiceInvkErrorCountRes.forEach(item => {
-      const temp = {
-        label: '',
-        count: '',
-      };
-      temp.key = item.key; // 服务key，即服务id
-      // eslint-disable-next-line
-      temp.label = item.topK.hits.hits[0]._source['gateway.monitor.api_name'];
-      temp.count = item.doc_count / topKServiceInvkErrorCountResTotal;
-      top20ServiceErrorCountArr.push(temp);
-    });
     this.setState({
       serviceCountRes,
       serviceInvkCountRes,
