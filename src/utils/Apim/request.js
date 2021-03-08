@@ -1,7 +1,7 @@
 import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import React,{ Fragment } from 'react';
-import { gatewayUrl, homepage, integrateProducts, productServices } from '@/defaultSettings';
+import { gatewayUrl, homepage } from '@/defaultSettings';
 // import router from 'umi/router';
 
 const checkStatus = response => {

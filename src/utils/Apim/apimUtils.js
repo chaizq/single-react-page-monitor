@@ -307,6 +307,41 @@ export const drawSingleSerMixChart = (param, domId) => {
     },
   };
 
+  const TimeLineGemo = <Geom type="line" position="label*executeTime" color="#0DE488" shape="smooth" size={2} />
+  const CountBarGemo = <Geom
+    type="interval"
+    position="label*value"
+    color={['type', value => {
+      if (value === 'invkErrorCount') {
+          return '#FE5562';
+        }
+        if (value === 'invkCount') {
+          if (categoryType === 'resTime') {
+            return '#F57900';
+          }
+          return '#259BFF';
+        }
+        return null;
+      },
+    ]}
+    tooltip={[
+      'type*value',
+      (type, val) => {
+        const obj = { invkCount: '调用量', invkErrorCount: '错误量' };
+        return {
+          name: obj[type],
+          value: val,
+        };
+      },
+    ]}
+    adjust={[
+      {
+        type: 'dodge',
+        marginRatio: 1 / 32,
+      },
+    ]}
+  />
+
   ReactDOM.render(
     <Chart
       height={339}
@@ -321,10 +356,16 @@ export const drawSingleSerMixChart = (param, domId) => {
       <h3 className="main-title" style={localStyles.mainTitle}>
         {title.serName + title.date}
       </h3>
-      <h4 style={localStyles.yAxisLabelLeft}>
-        {axisTitle}
-        <span style={localStyles.yAxisLabelRight}>响应时间(ms)</span>
-      </h4>
+      { categoryType === "resTime" ? <h4 style={localStyles.yAxisLabelLeft}>
+          响应时间(ms)
+          <span style={localStyles.yAxisLabelRight}>{axisTitle}</span>
+        </h4>:
+        <h4 style={localStyles.yAxisLabelLeft}>
+          {axisTitle}
+          <span style={localStyles.yAxisLabelRight}>响应时间(ms)</span>
+        </h4>
+      }
+
       <Legend
         custom
         allowAllCanceled
@@ -384,46 +425,13 @@ export const drawSingleSerMixChart = (param, domId) => {
           },
         }}
       />
-      <Axis name="invkCount" position="left" />
-      <Axis name="executeTime" position="right" />
+      <Axis name="invkCount" position={categoryType === "resTime" ? "left" : "right"} />
+
       <Tooltip />
-      <Geom
-        type="interval"
-        position="label*value"
-        color={[
-          'type',
-          value => {
-            if (value === 'invkErrorCount') {
-              return '#FE5562';
-            }
-            if (value === 'invkCount') {
-              if (categoryType === 'resTime') {
-                return '#F57900';
-              }
-              return '#259BFF';
-            }
-            return null;
-          },
-        ]}
-        tooltip={[
-          'type*value',
-          (type, val) => {
-            const obj = { invkCount: '调用量', invkErrorCount: '错误量' };
-            return {
-              name: obj[type],
-              value: val,
-            };
-          },
-        ]}
-        adjust={[
-          {
-            type: 'dodge',
-            marginRatio: 1 / 32,
-          },
-        ]}
-      />
+      {/*根据Geom的先后顺序确定y轴顺序，第一个Geom的y轴默认在左侧，第二个在右侧，
+         因此调整JSX DOM先后顺序即可实现y轴位置调整，两个JSX用数组的方式拼接即可 */}
+      { categoryType === "resTime" ? [TimeLineGemo, CountBarGemo] : [CountBarGemo, TimeLineGemo]}
       {/* <Geom type="line" position="label*executeTime" color="#0DE488" shape="dotSmooth" size={2} /> */}
-      <Geom type="line" position="label*executeTime" color="#0DE488" shape="smooth" size={2} />
     </Chart>,
     document.getElementById(domId)
   );

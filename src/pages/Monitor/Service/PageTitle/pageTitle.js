@@ -3,15 +3,15 @@ import { Row, Col, message } from 'antd';
 import { connect } from 'dva';
 import styles from './pageTitle.less';
 
-@connect((example) => ({
-  // pageTitle命名空间未生效
-  totalApiNum: example.gatewayConsole.totalApiNum
-
+@connect(({ gatewayConsole }) => ({
+  totalApiNum: gatewayConsole.totalApiNum
 }))
 class PageTitle extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      totalApiNum: props.totalApiNum
+    };
   }
 
   componentDidMount() {
@@ -232,7 +232,6 @@ class PageTitle extends Component {
               <Col className={styles.boxShortServiceErrorNum}>
                 <div className={styles.text}>调用服务错误总量</div>
                 <div className={styles.valueRed}>{totalIvkErrorCountRes}</div>
-                {/*<div className={styles.value}>32313</div>*/}
                 <div className={styles.image}>
                   <img src={[require("@/assets/dcat/monitor/boxShortServiceErrorNum.png")]} alt=""/>
                 </div>
@@ -241,7 +240,6 @@ class PageTitle extends Component {
           <Col span={6} className={styles.titleCard}>
               <Col className={styles.boxShortServiceResponseTime}>
                 <div className={styles.text}>服务平均响应时间(ms)</div>
-                {/*<div className={styles.value}>323234</div>*/}
                 <div className={styles.value}>
                   {this.toFixedNum(totalAvgExecuteTimeRes, 2)}
                 </div>

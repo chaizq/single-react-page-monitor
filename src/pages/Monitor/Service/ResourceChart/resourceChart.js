@@ -20,10 +20,11 @@ import TimeBar from '@/pages/Monitor/Service/Timebar/timeBar';
 // import {BarChartOutlined} from "@ant-design/icons";
 import styles from './resourceChart.less';
 
-const Now = new Date();
-const MonthFirstDay = new Date(Now.getFullYear(), Now.getMonth(), 1);
-const MonthNextFirstDay = new Date(Now.getFullYear(), Now.getMonth() + 1, 1);
-const MonthLastDay = new Date(MonthNextFirstDay - 1);
+// const Now = new Date();
+// const MonthFirstDay = new Date(Now.getFullYear(), Now.getMonth(), 1);
+// const MonthNextFirstDay = new Date(Now.getFullYear(), Now.getMonth() + 1, 1);
+// const MonthLastDay = new Date(MonthNextFirstDay - 1);
+
 const localStyles = {
   mainTitle: {
     padding: '25px 0 8px 0',
@@ -78,7 +79,7 @@ class ResourceChart extends Component {
     this.getResourceData(invokeStaticData);
   }
 
-  UNSAFE_componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // nextProps接收父组件中props传值的变化情况，父组件中current变化，nextProps.current值变化
     const { current, invokeStaticData } = this.props;
 
@@ -185,7 +186,6 @@ class ResourceChart extends Component {
         this.setState({
           barModalVisible: true,
         });
-
         break;
       default:
         break;
@@ -247,7 +247,9 @@ class ResourceChart extends Component {
                 });
               }
               temp.executeTime =
-                item.avg_execute_time.value === null ? 0 : toFixedNum(item.avg_execute_time.value, 0);
+                item.avg_execute_time.value === null || typeof item.avg_execute_time.value === 'undefined'
+                  ? 0
+                  : toFixedNum(item.avg_execute_time.value, 0);
               singleChartData.push(temp);
             });
           }
@@ -301,7 +303,20 @@ class ResourceChart extends Component {
 
   // 获取数据与绘制图表
   getResourceData = data => {
-    if (typeof data === 'undefined' || JSON.stringify(data) === '{}' || data === null) return;
+    if (typeof data === 'undefined' || JSON.stringify(data) === '{}' || data === null) {
+      this.setState({
+        serviceCountRes: '--',
+        serviceInvkCountRes: '--',
+        serviceInvkErrorCountRes: '--',
+        errorRate: '--',
+        UVCountRes: '--',
+        // top20ServiceCountArr,
+        // top20ServiceErrorCountArr
+      });
+      this.lineColumnChart([]);
+      this.barChart([]);
+      return;
+    }
     const res = data;
 
     let serviceCountRes;
@@ -355,7 +370,10 @@ class ResourceChart extends Component {
           }
         });
       }
-      temp.executeTime = toFixedNum(item.avg_execute_time.value, 0);
+      temp.executeTime =
+        item.avg_execute_time.value === null || typeof (item.avg_execute_time.value) ==='undefined'
+          ? 0
+          : toFixedNum(item.avg_execute_time.value, 0);
       top20ServiceCountArr.push(temp);
     });
 
@@ -397,7 +415,6 @@ class ResourceChart extends Component {
 
   lineColumnChart(chartData) {
     const data = modifyDuplicateLabel(chartData, 'label');
-
     const ds = new DataSet();
     ds.setState('type', '');
     const dv = ds.createView().source(data);
@@ -444,6 +461,20 @@ class ResourceChart extends Component {
         data={dv}
         scale={scale}
         padding="auto"
+        placeholder={
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyItems: 'center',
+              paddingTop: '20%',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+            <img src={[require("@/assets/dcat/empty/empty-chart-img.png")]} alt="empty-chart"/>
+            <span>暂无数据</span>
+          </div>
+        }
         onGetG2Instance={c => {
           this.top20Chart = c;
         }}
@@ -588,6 +619,20 @@ class ResourceChart extends Component {
         data={data}
         scale={sales}
         padding="auto"
+        placeholder={
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyItems: 'center',
+              paddingTop: '20%',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+            <img src={[require("@/assets/dcat/empty/empty-chart-img.png")]} alt="empty-chart"/>
+            <span>暂无数据</span>
+          </div>
+        }
         onGetG2Instance={c => {
           this.barChartRef = c;
         }}

@@ -8,7 +8,6 @@ import {
   drawSingleSerMixChart,
   editTypeMap,
 } from '@/utils/Apim/apimUtils';
-import backImg from "@/assets/dcat/monitor/banner-monitor.png";
 // import { AreaChartOutlined } from '@ant-design/icons';
 import styles from './index.less';
 import ResourceChart from './ResourceChart/resourceChart';
@@ -34,7 +33,6 @@ class ConsoleHomeView extends Component {
         end: new Date(Now.getFullYear() + 1, 0, 1) - 1,
         text: '本年',
       },
-
       invokeStaticData: {},
       invokeApiList: [],
       apiListModalVisible: false,
@@ -310,7 +308,7 @@ class ConsoleHomeView extends Component {
                       <List.Item>
                         <List.Item.Meta
                           avatar={<Avatar icon="area-chart" />}
-                          title={<a onClick={this.apiTitleClick.bind(this, item)}>{item.title}</a>}
+                          title={<a onClick={this.apiTitleClick.bind(this,item)}>{item.title}</a>}
                           description={`类型：${editTypeMap[item.type]}`}
                         />
                       </List.Item>
@@ -334,7 +332,7 @@ class ConsoleHomeView extends Component {
               md={24}
               lg={24}
               xl={24}
-              style={{ paddingBottom: 16, height: '100%' }}
+              style={{ paddingBottom: '16px', height: '100%' }}
             >
               <Col span={24}>
                 <Card bordered className={styles.content}>
@@ -355,7 +353,7 @@ class ConsoleHomeView extends Component {
               md={24}
               lg={24}
               xl={24}
-              style={{ paddingBottom: 16, height: '100%' }}
+              style={{ paddingBottom: '16px', height: '100%' }}
             >
               <Col span={24}>
                 <Card bordered className={styles.content} style={{ marginBottom: '62px' }}>
@@ -368,12 +366,6 @@ class ConsoleHomeView extends Component {
               </Col>
             </Col>
           </Row>
-
-          {/* <Row gutter={16} className={styles.footRow}>
-              <Col xs={24} sm={24} md={24} lg={18} xl={18}>
-
-              </Col>
-            </Row> */}
         </div>
       </Fragment>
     );

@@ -39,8 +39,7 @@ export default {
     getDeveloperByAccountResult: {},
     updateAppSecretResult: {},
     isDeveloperResult: null,
-
-    totalApiNum: '',
+    totalApiNum: 0,
     moreInfoChartType: 'top20',
   },
 

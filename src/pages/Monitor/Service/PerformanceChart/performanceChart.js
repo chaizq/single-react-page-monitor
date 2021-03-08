@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import { Axis, Chart, Coord, Geom, Label, Legend, Tooltip } from 'bizcharts';
 import {
   drawSingleSerLineChart,
-  drawSingleSerMixChart,
+  drawSingleSerMixChart, isRealNum,
   modifyDuplicateLabel,
   oneDayTimestampToDate,
   timestampToDate,
@@ -18,11 +18,6 @@ import TimeBar from '@/pages/Monitor/Service/Timebar/timeBar';
 // import { BarChartOutlined } from '@ant-design/icons';
 import styles from './performanceChart.less';
 
-const Now = new Date();
-const MonthFirstDay = new Date(Now.getFullYear(), Now.getMonth(), 1);
-const MonthNextFirstDay = new Date(Now.getFullYear(), Now.getMonth() + 1, 1);
-const MonthLastDay = new Date(MonthNextFirstDay - 1);
-
 @connect((gatewayConsole) => ({
   moreInfoChartType: gatewayConsole.moreInfoChartType
 }))
@@ -31,11 +26,6 @@ class PerformanceChart extends Component {
     super(props);
     this.state = {
       modalCurrent: this.props.current,
-      // modalCurrent: {
-      //   start: MonthFirstDay.getTime(),
-      //   end: MonthLastDay.getTime(),
-      //   text: '本月',
-      // },
       singleSerParam: {},
       lineModalVisible: false,
       barModalVisible: false,
@@ -51,10 +41,9 @@ class PerformanceChart extends Component {
   }
 
   // 可以接收动态传值并在render()之前更新state
-  UNSAFE_componentWillReceiveProps = nextProps => {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     // nextProps接收父组件中props传值的变化情况，父组件中current变化，nextProps.current值变化
     const { current, invokeStaticData } = this.props;
-
     if (nextProps.current !== current) {
       this.setState({
         currentText: nextProps.current.text,
@@ -86,7 +75,17 @@ class PerformanceChart extends Component {
 
   // 获取数据与绘制图表
   getPerformanceData = (data, current) => {
-    if (typeof data === 'undefined' || JSON.stringify(data) === '{}' || data === null) return;
+    if (typeof data === 'undefined' || JSON.stringify(data) === '{}' || data === null) {
+      this.lineColumnChart([]);
+      this.barChart([]);
+      this.setState({
+        avgExecuteTimeRes: '--',
+        topTPS: 0,
+        // topKExecuteTimeResArr,
+        // topKInvkResArr,
+      });
+      return;
+    }
     const res = data;
 
     const avgExecuteTimeRes = res.avgExecuteTiemRes.aggregations.avg_execute_time.value;
@@ -223,6 +222,20 @@ class PerformanceChart extends Component {
         data={dv}
         scale={scale}
         padding="auto"
+        placeholder={
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyItems: 'center',
+              paddingTop: '20%',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+            <img src={[require("@/assets/dcat/empty/empty-chart-img.png")]} alt="empty-chart"/>
+            <span>暂无数据</span>
+          </div>
+        }
         onGetG2Instance={c => {
           this.top20Chart = c;
         }}
@@ -386,6 +399,20 @@ class PerformanceChart extends Component {
         data={data}
         scale={sales}
         padding="auto"
+        placeholder={
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              justifyItems: 'center',
+              paddingTop: '20%',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}>
+            <img src={[require("@/assets/dcat/empty/empty-chart-img.png")]} alt="empty-chart"/>
+            <span>暂无数据</span>
+          </div>
+        }
         onGetG2Instance={c => {
           this.barChartRef = c;
         }}
@@ -502,7 +529,6 @@ class PerformanceChart extends Component {
         this.setState({
           barModalVisible: true,
         });
-
         break;
       default:
         break;
@@ -553,7 +579,9 @@ class PerformanceChart extends Component {
               }
               temp.invkCount = item.doc_count;
               temp.executeTime =
-                item.avg_execute_time.value === null ? 0 : toFixedNum(item.avg_execute_time.value, 0);
+                item.avg_execute_time.value === null || typeof (item.avg_execute_time.value) === 'undefined'
+                  ? 0
+                  : toFixedNum(item.avg_execute_time.value, 0);
               singleChartData.push(temp);
             });
           }
@@ -618,6 +646,17 @@ class PerformanceChart extends Component {
     showMoreInfo();
   }
 
+  /**
+   * 将DOM中显示的数值转换为字符串，若原值已是字符串类型则返回原值
+   */
+  numToString(val) {
+    let result = val
+    if (typeof val !== 'string' && typeof val !== 'undefined') {
+      result = val.toString()
+    }
+    return result
+  }
+
   render() {
     const {
       avgExecuteTimeRes,
@@ -627,7 +666,6 @@ class PerformanceChart extends Component {
       barModalVisible,
       modalCurrent,
     } = this.state;
-
 
     return (
       <div className={styles.chartsContent}>
@@ -690,7 +728,7 @@ class PerformanceChart extends Component {
                   平均响应时间(ms)
                 </Col>
                 <Col span={12} className={styles.value}>
-                  {toFixedNum(avgExecuteTimeRes, 2)}
+                  { this.numToString(toFixedNum(avgExecuteTimeRes, 2)) }
                 </Col>
               </Row>
             </Card>
@@ -718,7 +756,7 @@ class PerformanceChart extends Component {
                 </Col>
                 <Col span={12} className={styles.value}>
                   {/*{topTPS < 0.001 ? '< 0.001' : toFixedNum(topTPS, 3)}*/}
-                  { toFixedNum(1000/avgExecuteTimeRes,0) }
+                  { isRealNum(avgExecuteTimeRes) ? this.numToString(toFixedNum(1000/avgExecuteTimeRes,2)) : '--' }
                 </Col>
               </Row>
               {/* <Col span={12} className={styles.value}>{topTPS}</Col> */}
