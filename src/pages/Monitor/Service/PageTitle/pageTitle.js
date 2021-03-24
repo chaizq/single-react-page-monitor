@@ -35,6 +35,10 @@ class PageTitle extends Component {
       type: 'gatewayConsole/getGlobalStaticData',
       payload: {},
     }).then(response => {
+      if (response === null || typeof response === 'undefined' || response.code !== 200) {
+        message.error('获取全局统计数据失败！');
+        return;
+      }
       let res = response
       // res = response.body;
       if (res instanceof Object) {
@@ -71,7 +75,7 @@ class PageTitle extends Component {
       type: 'monitor/getApiAnalyzeStatisticInfo',
     }).then(response => {
       let res = null;
-      if (response.code !== 200) {
+      if (response === null || typeof response === 'undefined' || response.code !== 200) {
         message.error('获取DI API服务数据失败！');
         // console.log(response.message);
         return;
