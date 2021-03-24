@@ -122,7 +122,6 @@ class PageTitle extends Component {
       orgCount,
       apiSubCount,
       // serviceErrorCountRes   // apiData from monitor
-
       totalApiNum
     } = this.state;
 
