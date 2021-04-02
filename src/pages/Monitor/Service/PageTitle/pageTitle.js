@@ -35,36 +35,35 @@ class PageTitle extends Component {
       type: 'gatewayConsole/getGlobalStaticData',
       payload: {},
     }).then(response => {
-      if (response === null || typeof response === 'undefined' || response.code !== 200) {
+      // 后台修改为返回的直接是body体
+      if (response === null || typeof response !== 'object') {
         message.error('获取全局统计数据失败！');
         return;
       }
       let res = response
       // res = response.body;
-      if (res instanceof Object) {
-        const totalIvkCount = res.totalIvkCount.total;
-        const totalIvkErrorCountRes = res.totalIvkErrorCountRes.total;
 
-        let totalAvgExecuteTimeRes;
-        // let serviceErrorCountRes;
-        if (JSON.stringify(res.totalAvgExecuteTimeRes.aggregations) === '{}') {
-          totalAvgExecuteTimeRes = 0;
-        } else {
-          totalAvgExecuteTimeRes = res.totalAvgExecuteTimeRes.aggregations.avg_execute_time.value;
-        }
-        // if (JSON.stringify(res.serviceErrorCountRes.aggregations) === "{}"){serviceErrorCountRes = '--'} else {
-        //   serviceErrorCountRes = res.serviceErrorCountRes.aggregations.api_ids.value; // 异常服务数
-        // }
+      const totalIvkCount = res.totalIvkCount.total;
+      const totalIvkErrorCountRes = res.totalIvkErrorCountRes.total;
 
-        this.setState({
-          totalIvkCount,
-          totalIvkErrorCountRes,
-          totalAvgExecuteTimeRes,
-          // serviceErrorCountRes
-        });
+      let totalAvgExecuteTimeRes;
+      // let serviceErrorCountRes;
+      if (JSON.stringify(res.totalAvgExecuteTimeRes.aggregations) === '{}') {
+        totalAvgExecuteTimeRes = 0;
       } else {
-        message.error('获取全局统计数据失败！');
+        totalAvgExecuteTimeRes = res.totalAvgExecuteTimeRes.aggregations.avg_execute_time.value;
       }
+      // if (JSON.stringify(res.serviceErrorCountRes.aggregations) === "{}"){serviceErrorCountRes = '--'} else {
+      //   serviceErrorCountRes = res.serviceErrorCountRes.aggregations.api_ids.value; // 异常服务数
+      // }
+
+      this.setState({
+        totalIvkCount,
+        totalIvkErrorCountRes,
+        totalAvgExecuteTimeRes,
+        // serviceErrorCountRes
+      });
+
     });
   };
 
@@ -209,47 +208,47 @@ class PageTitle extends Component {
           </Col>*/}
 
           <Col span={6} className={styles.titleCard}>
-              <Col className={styles.boxShortServiceNum}>
-                <div className={styles.text}>服务总数</div>
-                <div className={styles.value}>{totalApiNum}</div>
-                {/*<div className={styles.value}>42511</div>*/}
-                <div >
-                  <img
-                    className={styles.image}
-                    src={[require("@/assets/dcat/monitor/boxShortServiceNum.png")]} alt=""/>
-                </div>
-              </Col>
+            <Col className={styles.boxShortServiceNum}>
+              <div className={styles.text}>服务总数</div>
+              <div className={styles.value}>{totalApiNum}</div>
+              {/*<div className={styles.value}>42511</div>*/}
+              <div >
+                <img
+                  className={styles.image}
+                  src={[require("@/assets/dcat/monitor/boxShortServiceNum.png")]} alt=""/>
+              </div>
+            </Col>
           </Col>
           <Col span={6} className={styles.titleCard}>
-              <Col className={styles.boxShortServiceTotal}>
-                <div className={styles.text}>调用服务总量</div>
-                <div className={styles.value}>{totalIvkCount}</div>
-                {/*<div className={styles.value}>212112</div>*/}
-                <div className={styles.image}>
-                  <img src={[require("@/assets/dcat/monitor/boxShortServiceTotal.png")]} alt=""/>
-                </div>
+            <Col className={styles.boxShortServiceTotal}>
+              <div className={styles.text}>调用服务总量</div>
+              <div className={styles.value}>{totalIvkCount}</div>
+              {/*<div className={styles.value}>212112</div>*/}
+              <div className={styles.image}>
+                <img src={[require("@/assets/dcat/monitor/boxShortServiceTotal.png")]} alt=""/>
+              </div>
 
-              </Col>
+            </Col>
           </Col>
           <Col span={6} className={styles.titleCard}>
-              <Col className={styles.boxShortServiceErrorNum}>
-                <div className={styles.text}>调用服务错误总量</div>
-                <div className={styles.valueRed}>{totalIvkErrorCountRes}</div>
-                <div className={styles.image}>
-                  <img src={[require("@/assets/dcat/monitor/boxShortServiceErrorNum.png")]} alt=""/>
-                </div>
-              </Col>
+            <Col className={styles.boxShortServiceErrorNum}>
+              <div className={styles.text}>调用服务错误总量</div>
+              <div className={styles.valueRed}>{totalIvkErrorCountRes}</div>
+              <div className={styles.image}>
+                <img src={[require("@/assets/dcat/monitor/boxShortServiceErrorNum.png")]} alt=""/>
+              </div>
+            </Col>
           </Col>
           <Col span={6} className={styles.titleCard}>
-              <Col className={styles.boxShortServiceResponseTime}>
-                <div className={styles.text}>服务平均响应时间(ms)</div>
-                <div className={styles.value}>
-                  {this.toFixedNum(totalAvgExecuteTimeRes, 2)}
-                </div>
-                <div className={styles.image}>
-                  <img src={[require("@/assets/dcat/monitor/boxShortServiceResponseTime.png")]} alt=""/>
-                </div>
-              </Col>
+            <Col className={styles.boxShortServiceResponseTime}>
+              <div className={styles.text}>服务平均响应时间(ms)</div>
+              <div className={styles.value}>
+                {this.toFixedNum(totalAvgExecuteTimeRes, 2)}
+              </div>
+              <div className={styles.image}>
+                <img src={[require("@/assets/dcat/monitor/boxShortServiceResponseTime.png")]} alt=""/>
+              </div>
+            </Col>
           </Col>
         </Row>
       </div>

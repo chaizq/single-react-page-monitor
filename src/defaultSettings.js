@@ -31,6 +31,6 @@ module.exports = {
     DataModel: ['dsdService'],
   },
   // APIM后台服务地址设置（单页面使用到的地址）
-  gatewayUrl :'http://10.4.53.57:8070',
+  gatewayUrl :'http://10.74.135.20:8070',
   // gatewayUrl :'http://10.4.45.201:8089', // 本地测试环境
 };
